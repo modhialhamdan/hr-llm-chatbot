@@ -1,9 +1,9 @@
-# HR Analytics LLM Chatbot (SQLite + Streamlit) 💬📊
+# HR Analytics LLM Chatbot
 
-A practical HR analytics chatbot built on the **IBM HR Attrition dataset**.  
-It answers HR questions by running **real SQL queries** against a local **SQLite** database, then uses an LLM (either **Local Falcon GGUF** or **Groq API**) to provide **HR-friendly insights**.
+A practical HR analytics chatbot built on the IBM HR Attrition dataset.  
+It answers HR questions by running **real SQL queries** against a local **SQLite** database, then uses an LLM (either Local Falcon GGUF or Groq API) to provide HR-friendly insights.
 
-> ✅ **Design principle:**  
+> **Design principle:**  
 > **Numbers come from SQLite.**  
 > The **LLM is only used for interpretation + conversational recommendations**, not for calculating results.
 
@@ -59,17 +59,19 @@ hr-llm-chatbot/
 ├── environment.yml          # (optional) conda env spec
 ├── .env.example             # example env vars (no secrets)
 └── README.md
-Requirements
+```
+## Requirements
+طط
+- Windows
 
-Windows
+- Conda recommended
 
-Conda recommended
+- Python 3.11 recommended (best compatibility)
 
-Python 3.11 recommended (best compatibility)
+- Optional (for Local GGUF): llama-cpp-python installed successfully
 
-Optional (for Local GGUF): llama-cpp-python installed successfully
+### Environment Setup
 
-Environment Setup
 1) Create / Activate Conda Environment
 
 Option A — create fresh env (recommended)
@@ -107,8 +109,6 @@ Create a file named .env in the project root:
 
 GROQ_API_KEY=YOUR_KEY_HERE
 
-
-✅ .env must NOT be committed (keep it ignored).
 
 Data Ingestion (CSV → SQLite)
 
