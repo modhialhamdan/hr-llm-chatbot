@@ -5,3 +5,30 @@ __pycache__/
 data/processed/
 assets/*.gif
 assets/*.png
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment
+.env
+.env.*
+.venv/
+venv/
+
+# Data & DB
+data/
+db/
+*.sqlite
+*.db
+
+# Models (GGUF are huge)
+models/
+
+# Streamlit
+.streamlit/
+
+# OS
+.DS_Store
+Thumbs.db

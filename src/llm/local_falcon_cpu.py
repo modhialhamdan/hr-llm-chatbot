@@ -13,7 +13,7 @@ def main():
     llm = Llama(
         model_path=str(MODEL_PATH),
         n_ctx=2048,
-        n_threads=8,   # adjust to your CPU cores
+        n_threads=8,   # adjust to CPU cores
         verbose=False
     )
 
@@ -39,3 +39,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    

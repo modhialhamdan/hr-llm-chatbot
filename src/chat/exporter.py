@@ -18,7 +18,8 @@ def export_pdf(chat_text: str) -> bytes:
         if y < 50:
             c.showPage()
             y = height - 50
-        c.drawString(x, y, line[:120])  # avoid very long line overflow
+        # avoid overflow
+        c.drawString(x, y, line[:120])
         y -= line_height
 
     c.save()

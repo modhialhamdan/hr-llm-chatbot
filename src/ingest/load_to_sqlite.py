@@ -29,10 +29,10 @@ def main():
     engine = create_engine(f"sqlite:///{DB_PATH}")
     df.to_sql(TABLE_NAME, con=engine, if_exists="replace", index=False)
 
-    print("✅ SQLite DB:", DB_PATH)
-    print("✅ Table:", TABLE_NAME)
-    print("✅ Rows:", len(df), "Cols:", len(df.columns))
-    print("✅ Columns:", list(df.columns)[:10], "...")
+    print("SQLite DB:", DB_PATH)
+    print("Table:", TABLE_NAME)
+    print("Rows:", len(df), "Cols:", len(df.columns))
+    print("Columns:", list(df.columns)[:10], "...")
 
 
 if __name__ == "__main__":

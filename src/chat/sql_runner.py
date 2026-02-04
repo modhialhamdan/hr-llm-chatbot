@@ -4,11 +4,9 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = PROJECT_ROOT / "db" / "hr.sqlite"
 
-ALLOWED_PREFIX = "select"
-
 def run_sql(query: str):
     q = query.strip().lower()
-    if not q.startswith(ALLOWED_PREFIX):
+    if not q.startswith("select"):
         raise ValueError("Only SELECT statements are allowed.")
 
     with sqlite3.connect(DB_PATH) as conn:
