@@ -26,7 +26,7 @@ It answers HR questions by running real SQL queries against a local SQLite datab
 
 ```txt
 hr-llm-chatbot/
-├── assets/                  # Screenshots + demo GIF for README
+├── assets/                  # Screenshots + demo GIF 
 ├── data/                    # Dataset CSV (ignored in git)
 ├── db/
 │   └── hr.sqlite            # SQLite database generated from CSV
@@ -53,10 +53,10 @@ hr-llm-chatbot/
 │   │   ├── list_repo_files.py
 │   │   └── download_falcon_gguf.py
 │   └── analysis/
-│       └── sentiment.py     # Sentiment analysis using Groq (lightweight)
+│       └── sentiment.py     # Sentiment analysis using Groq
 ├── requirements.txt         # pip dependencies
 ├── environment.yml          # (optional) conda env spec
-├── .env.example             # example env vars (no secrets)
+├── .env.example             # example env vars 
 └── README.md
 ```
 ## Requirements
@@ -100,17 +100,19 @@ pip install llama-cpp-python
 ```
 
 If llama-cpp-python fails to build:
+
 You likely need Visual Studio Build Tools (C++ build tools).
+
 If storage is tight, prefer Groq provider and skip local GGUF.
 
-Configure Secrets (.env)
+### Configure Secrets (.env)
 
 Create a file named .env in the project root:
 
 GROQ_API_KEY=YOUR_KEY_HERE
 
 
-Data Ingestion (CSV → SQLite)
+### Data Ingestion (CSV → SQLite)
 
 Place your dataset in:
 
