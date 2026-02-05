@@ -191,4 +191,20 @@ It is designed to be:
 - Explainable
 - Suitable for academic, demo, or internal analytics use
 
+## Demo
+
+![HR Analytics Chatbot Demo](assets/HRChatbotDemo.gif)
+
+---
+
+## Chatbot Interface
+
+![Chatbot Interface](assets/ChatbotInterface.png)
+
+---
+
+## Follow-up Questions
+
+![Follow-up Question](assets/Chatbotinterface-FollowUpQuestion.png)
+
 
