@@ -1,25 +1,24 @@
 # HR Analytics LLM Chatbot
 
 A practical HR analytics chatbot built on the IBM HR Attrition dataset.  
-It answers HR questions by running **real SQL queries** against a local **SQLite** database, then uses an LLM (either Local Falcon GGUF or Groq API) to provide HR-friendly insights.
-
-> **Design principle:**  
-> **Numbers come from SQLite.**  
-> The **LLM is only used for interpretation + conversational recommendations**, not for calculating results.
+It answers HR questions by running real SQL queries against a local SQLite database, then uses an LLM (either Local Falcon GGUF or Groq API) to provide HR-friendly insights.
+ 
+> Numbers come from SQLite.
+> The LLM is only used for interpretation + conversational recommendations, not for calculating results.
 
 ---
 
 ## Features
 
-- **Text-to-SQL** for HR analytics questions (safe `SELECT` only)
-- **SQLite** local database (fast & reproducible)
+- **Text-to-SQL** for HR analytics questions 
+- **SQLite** local database 
 - **Streamlit UI** chat interface
-- **Conversation memory** (follow-up questions work)
+- **Conversation memory** — follow-up questions like *"What about Sales?"* reuse previous context automatically
 - **Export chat transcript** to **TXT** + **PDF**
-- **Sentiment analysis script** (Groq-based, no heavy Torch required)
+- **Sentiment analysis script** (Groq-based)
 -  **Dual LLM providers**
   - Local Falcon GGUF (offline)
-  - Groq API (cloud, faster)
+  - Groq API (cloud)
 
 ---
 
@@ -70,34 +69,35 @@ hr-llm-chatbot/
 
 - Optional (for Local GGUF): llama-cpp-python installed successfully
 
-### Environment Setup
+## Environment Setup
 
 1) Create / Activate Conda Environment
 
 Option A — create fresh env (recommended)
-
+```bash
 conda create -n hr-llm311 python=3.11 -y
 conda activate hr-llm311
-
+```
 
 Option B — if you already have an env
-
+```bash
 conda activate hr-llm311
-
+```
 2) Install Dependencies
+```bash
 python -m pip install -U pip
 pip install -r requirements.txt
-
+```
 
 If you use Groq (cloud LLM):
-
+```bash
 pip install groq python-dotenv httpx
-
+```
 
 If you use Local Falcon GGUF (offline):
-
+```bash
 pip install llama-cpp-python
-
+```
 
 If llama-cpp-python fails to build:
 You likely need Visual Studio Build Tools (C++ build tools).
@@ -118,9 +118,9 @@ data/HR-Employee-Attrition.csv
 
 
 Then run:
-
+```bash
 python src/ingest/load_to_sqlite.py
-
+```
 
 Expected output:
 
@@ -131,107 +131,62 @@ Creates table: employees
 Confirms rows + columns
 
 Check DB quickly:
-
+```bash
 python -m src.chat.db_inspect
+```
 
 Run the App (Streamlit Chatbot)
 
 From the project root:
-
+```bash
 streamlit run src/app.py
-
+```
 
 Open in browser:
 
 Local: http://localhost:8501
 
-How Follow-up Questions Work (Memory)
 
-The chatbot supports follow-up context, e.g.:
-
-Q1: “What’s the average salary?”
-
-Q2: “What about in Sales?”
-
-Ensure app.py calls router with history:
-
-answer = answer_question(
-    user_text,
-    provider=provider,
-    conversation_history=st.session_state.memory.messages
-)
-
-Example Questions
+## Example Questions
 
 Try:
 
-How many employees are in the dataset?
+  - How many employees are in the dataset?
 
-What percentage of employees who work overtime left the company?
+  - What percentage of employees who work overtime left the company?
 
-What is the attrition rate by department?
+  - What is the attrition rate by department?
 
-Average monthly income in Sales
+  - Average monthly income in Sales
 
-Follow-up: What about Research & Development?
-
-Export Chat (TXT / PDF)
-
-In the sidebar you can export:
-
-chat_transcript.txt
-
-chat_transcript.pdf
-
-Implementation:
-
-src/chat/exporter.py generates TXT + PDF (ReportLab)
-
-Sidebar buttons are defined in src/app.py
-
-Sentiment Analysis (No Torch Needed)
-
-Runs sentiment classification on an engineered text field combining:
-
-Department
-
-JobRole
-
-OverTime
-
-Attrition
-
-Run:
-
-python -m src.analysis.sentiment
+  - Follow-up: What about Research & Development?
 
 
-Outputs a small dataframe with:
 
-text
+## Model Comparison
 
-sentiment (POSITIVE / NEUTRAL / NEGATIVE)
+| Aspect              | Groq API (Cloud)                     | Local Falcon GGUF (CPU)           |
+|---------------------|--------------------------------------|-----------------------------------|
+| Execution            | Cloud-based                          | Fully local                       |
+| Speed                | Very fast                            | Slower (CPU-bound)                |
+| Cost                 | API usage                            | Free after setup                  |
+| Internet Required    | Yes                                  | No                                |
+| Offline Support      | No                                   | Yes                               |
+| Privacy              | Data sent to API                     | Data stays on local machine       |
+| Setup Complexity     | Easy                                 | Medium–Hard (C++ build tools)     |
+| Hardware Dependency  | None (cloud handled)                 | CPU (RAM & disk intensive)        |
+| Best Use Case        | Demos, fast iteration, presentations | Offline analysis, privacy-focused |
 
-score
+## Why This Project?
 
-source (groq)
+This project demonstrates a **real-world HR analytics pipeline** where:
+- Business questions are translated into **validated SQL**
+- Results come from an actual database (not hallucinated)
+- LLMs are used only for **interpretation, insights, and follow-up reasoning**
 
-This avoids heavy Torch installs and keeps environment light.
+It is designed to be:
+- Safe (read-only SQL)
+- Explainable
+- Suitable for academic, demo, or internal analytics use
 
-LLM Providers: Groq vs Local Falcon
-Provider Switch (UI)
 
-Inside the Streamlit sidebar:
-
-local → Falcon GGUF via llama.cpp (offline)
-
-groq → Groq API (cloud, fast)
-
-Model Comparison
-Aspect	Groq API	Local Falcon GGUF
-Execution	Cloud	Fully local
-Speed	Very fast	Slower (CPU)
-Cost	API usage	Free after setup
-Offline: Yes
-Setup complexity	Easy	Medium/Hard (build tools)
-Best for	Production demos	Offline & privacy
